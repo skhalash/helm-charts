@@ -26,7 +26,7 @@ spec:
     rules:
     - alert: NetworkReceiveErrors
       annotations:
-        message: Network interface "{{`{{`}} $labels.device {{`}}`}}" showing receive errors on node-exporter {{`{{`}} $labels.namespace {{`}}`}}/{{`{{`}} $labels.pod {{`}}`}}"
+        description: Network interface "{{`{{`}} $labels.device {{`}}`}}" showing receive errors on node-exporter {{`{{`}} $labels.namespace {{`}}`}}/{{`{{`}} $labels.pod {{`}}`}}"
       expr: rate(node_network_receive_errs_total{job="node-exporter",device!~"veth.+"}[2m]) > 0
       for: 2m
       labels:
@@ -36,7 +36,7 @@ spec:
 {{- end }}
     - alert: NetworkTransmitErrors
       annotations:
-        message: Network interface "{{`{{`}} $labels.device {{`}}`}}" showing transmit errors on node-exporter {{`{{`}} $labels.namespace {{`}}`}}/{{`{{`}} $labels.pod {{`}}`}}"
+        description: Network interface "{{`{{`}} $labels.device {{`}}`}}" showing transmit errors on node-exporter {{`{{`}} $labels.namespace {{`}}`}}/{{`{{`}} $labels.pod {{`}}`}}"
       expr: rate(node_network_transmit_errs_total{job="node-exporter",device!~"veth.+"}[2m]) > 0
       for: 2m
       labels:
@@ -46,7 +46,7 @@ spec:
 {{- end }}
     - alert: NodeNetworkInterfaceFlapping
       annotations:
-        message: Network interface "{{`{{`}} $labels.device {{`}}`}}" changing it's up status often on node-exporter {{`{{`}} $labels.namespace {{`}}`}}/{{`{{`}} $labels.pod {{`}}`}}"
+        description: Network interface "{{`{{`}} $labels.device {{`}}`}}" changing it's up status often on node-exporter {{`{{`}} $labels.namespace {{`}}`}}/{{`{{`}} $labels.pod {{`}}`}}"
       expr: changes(node_network_up{job="node-exporter",device!~"veth.+"}[2m]) > 2
       for: 2m
       labels:

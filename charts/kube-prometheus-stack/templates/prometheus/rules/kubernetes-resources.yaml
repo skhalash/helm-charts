@@ -26,7 +26,7 @@ spec:
     rules:
     - alert: KubeCPUOvercommit
       annotations:
-        message: Cluster has overcommitted CPU resource requests for Pods and cannot tolerate node failure.
+        description: Cluster has overcommitted CPU resource requests for Pods and cannot tolerate node failure.
         runbook_url: {{ .Values.defaultRules.runbookUrl }}alert-name-kubecpuovercommit
       expr: |-
         sum(namespace_name:kube_pod_container_resource_requests_cpu_cores:sum)
@@ -42,7 +42,7 @@ spec:
 {{- end }}
     - alert: KubeMemOvercommit
       annotations:
-        message: Cluster has overcommitted memory resource requests for Pods and cannot tolerate node failure.
+        description: Cluster has overcommitted memory resource requests for Pods and cannot tolerate node failure.
         runbook_url: {{ .Values.defaultRules.runbookUrl }}alert-name-kubememovercommit
       expr: |-
         sum(namespace_name:kube_pod_container_resource_requests_memory_bytes:sum)
@@ -60,7 +60,7 @@ spec:
 {{- end }}
     - alert: KubeCPUOvercommit
       annotations:
-        message: Cluster has overcommitted CPU resource requests for Namespaces.
+        description: Cluster has overcommitted CPU resource requests for Namespaces.
         runbook_url: {{ .Values.defaultRules.runbookUrl }}alert-name-kubecpuovercommit
       expr: |-
         sum(kube_resourcequota{job="kube-state-metrics", type="hard", resource="cpu"})
@@ -75,7 +75,7 @@ spec:
 {{- end }}
     - alert: KubeMemOvercommit
       annotations:
-        message: Cluster has overcommitted memory resource requests for Namespaces.
+        description: Cluster has overcommitted memory resource requests for Namespaces.
         runbook_url: {{ .Values.defaultRules.runbookUrl }}alert-name-kubememovercommit
       expr: |-
         sum(kube_resourcequota{job="kube-state-metrics", type="hard", resource="memory"})
@@ -90,7 +90,7 @@ spec:
 {{- end }}
     - alert: KubeQuotaExceeded
       annotations:
-        message: Namespace {{`{{`}} $labels.namespace {{`}}`}} is using {{`{{`}} printf "%0.0f" $value {{`}}`}}% of its {{`{{`}} $labels.resource {{`}}`}} quota.
+        description: Namespace {{`{{`}} $labels.namespace {{`}}`}} is using {{`{{`}} printf "%0.0f" $value {{`}}`}}% of its {{`{{`}} $labels.resource {{`}}`}} quota.
         runbook_url: {{ .Values.defaultRules.runbookUrl }}alert-name-kubequotaexceeded
       expr: |-
         100 * kube_resourcequota{job="kube-state-metrics", type="used"}
@@ -105,7 +105,7 @@ spec:
 {{- end }}
     - alert: CPUThrottlingHigh
       annotations:
-        message: '{{`{{`}} printf "%0.0f" $value {{`}}`}}% throttling of CPU in namespace {{`{{`}} $labels.namespace {{`}}`}} for container {{`{{`}} $labels.container_name {{`}}`}} in pod {{`{{`}} $labels.pod_name {{`}}`}}.'
+        description: '{{`{{`}} printf "%0.0f" $value {{`}}`}}% throttling of CPU in namespace {{`{{`}} $labels.namespace {{`}}`}} for container {{`{{`}} $labels.container_name {{`}}`}} in pod {{`{{`}} $labels.pod_name {{`}}`}}.'
         runbook_url: {{ .Values.defaultRules.runbookUrl }}alert-name-cputhrottlinghigh
       expr: |-
         100 * sum(increase(container_cpu_cfs_throttled_periods_total{container_name!="", }[5m])) by (container_name, pod_name, namespace)
